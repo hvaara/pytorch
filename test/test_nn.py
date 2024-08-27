@@ -8917,7 +8917,9 @@ class TestNNDeviceType(NNTestCase):
                     else:
                         self.assertEqual(hx.grad, hx_device.grad)
 
-    def test_BatchNorm_empty(self, device):
+    @dtypesIfMPS(torch.float)
+    @dtypes(torch.double)
+    def test_BatchNorm_empty(self, device, dtype):
         mod = torch.nn.BatchNorm2d(3).to(device)
         inp = torch.randn(0, 3, 2, 2, device=device)
         _test_module_empty_input(self, mod, inp)
