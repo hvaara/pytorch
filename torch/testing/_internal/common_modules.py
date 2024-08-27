@@ -17,7 +17,7 @@ from torch.testing._internal.common_dtype import (
 from torch.testing._internal.common_device_type import (
     _TestParametrizer, _update_param_kwargs, expectedFailureMPS, toleranceOverride, tol,
     skipCUDAIfCudnnVersionLessThan, skipCUDAIfRocm, precisionOverride, skipMeta, skipMPS,
-    skipCUDAVersionIn)
+    skipMPSVersionIfLessThan, skipCUDAVersionIn)
 from torch.testing._internal.common_methods_invocations import DecorateInfo
 from torch.testing._internal.common_nn import (
     cosineembeddingloss_reference, cross_entropy_loss_reference, ctcloss_reference,
