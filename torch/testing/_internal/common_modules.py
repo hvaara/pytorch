@@ -15,8 +15,9 @@ from torch.testing._internal.common_cuda import TEST_CUDNN
 from torch.testing._internal.common_dtype import (
     floating_types, floating_and_complex_types_and, get_all_fp_dtypes)
 from torch.testing._internal.common_device_type import (
-    _TestParametrizer, _update_param_kwargs, toleranceOverride, tol,
-    skipCUDAIfCudnnVersionLessThan, skipCUDAIfRocm, precisionOverride, skipMeta, skipMPS, skipCUDAVersionIn)
+    _TestParametrizer, _update_param_kwargs, expectedFailureMPS, toleranceOverride, tol,
+    skipCUDAIfCudnnVersionLessThan, skipCUDAIfRocm, precisionOverride, skipMeta, skipMPS,
+    skipCUDAVersionIn)
 from torch.testing._internal.common_methods_invocations import DecorateInfo
 from torch.testing._internal.common_nn import (
     cosineembeddingloss_reference, cross_entropy_loss_reference, ctcloss_reference,
@@ -3451,6 +3452,8 @@ module_db: List[ModuleInfo] = [
                train_and_eval_differ=True,
                module_inputs_func=module_inputs_torch_nn_BatchNorm2d,
                skips=(
+                   # See https://github.com/pytorch/pytorch/issues/134580
+                   DecorateInfo(expectedFailureMPS, 'TestModule', 'test_memory_format'),
                    # tracking here rather than in the list in test_aotdispatch.py as eval mode passes
                    # RuntimeError: tried to get Double out of SymInt
                    DecorateInfo(
