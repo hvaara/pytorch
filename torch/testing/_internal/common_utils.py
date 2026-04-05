@@ -2172,7 +2172,10 @@ def skipIfXpu(func=None, *, msg="test doesn't currently work on the XPU stack"):
 def skipIfMPS(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if TEST_MPS:
+        is_cpu_device = kwargs.get("device", "").startswith("cpu")
+        is_cpu_test = len(args) > 0 and type(args[0]).__name__.endswith("CPU")
+        is_cpu = is_cpu_device or is_cpu_test
+        if TEST_MPS and not is_cpu:
             raise unittest.SkipTest("test doesn't currently work with MPS")
         else:
             fn(*args, **kwargs)
